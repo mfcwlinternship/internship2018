@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang ="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ChartJS - BarGraph</title>
+    <style type = "text/css">
+            #chart-container{
+                width: 640px;
+                height: auto; 
+         }
+    </style>
+</head>
+<body>
+    <p>
+    Enter Start and End Date:<br>
+    </p>
+    
+    <form action="/data.php">
+    Start Date: <br>
+    <input type="date" name="Sdate">
+    <!-- <input type="submit" value="Enter"> -->
+    </form>
+    <br>
+    <form action="/data.php">
+    End Date: <br>
+    <input type="date" name="Edate">
+    <!-- <input type="submit" value="Enter"> -->
+    </form>
+    <br>
+    <form action="/data.php">
+    Select Make: <br>
+    <select name="cars">
+        <option value="ASHOK LEYLAND">Ashok Leyland</option>
+        <option value="ASTON MARTIN">Aston Martin</option>
+        <option value="AUDI">Audi</option>
+        <option value="BENTLEY">Bentley</option>
+        <option value="BMW">BMW</option>
+        <option value="BUGATTI">Bugatti</option>
+        <option value="CHEVROLET">Chevrolet</option>
+        <option value="DAEWOO">Daewoo</option>
+        <option value="DATSUN">Datsun</option>
+        <option value="DC">DC</option>
+        <option value="FERRARI">Ferrari</option>
+        <option value="FIAT">Fiat</option>
+        <option value="FORCE MOTORS">Force Motors</option>
+        <option value="FORD">Ford</option>
+        <option value="HINDUSTAN MOTORS">Hindustan Motors</option>
+        <option value="HONDA">Honda</option>
+        <option value="HYUNDAI">Hyundai</option>
+        <option value="ISUZU">Isuzu</option>
+        <option value="JAGUAR">Audi</option>
+        <option value="LAMBORGHINI">Volvo</option>
+        <option value="LANDROVER">Saab</option>
+        <option value="MAHINDRA">Fiat</option>
+        <option value="MARUTI SUZUKI">Maruti Suzuki</option>
+        <option value="MAHINDRA RENAULT">Mahindra Renault</option>
+        <option value="MASERATI">Maserati</option>
+        <option value="MERCEDES BENZ">Mercedes-Benz</option>
+        <option value="MINI">Mini</option>
+        <option value="MITSUBISHI">Mitsubishi</option>
+        <option value="NISSAN">Nissan</option>
+        <option value="OPEL">Opel</option>
+        <option value="PORSCHE">Porsche</option>
+        <option value="RENAULT">Renault</option>
+        <option value="ROLLS ROYCE">Rolls Royce</option>
+        <option value="SKODA">Skoda</option>
+        <option value="SANGYONG">Ssangyong</option>
+        <option value="TATA">Tata</option>
+        <option value="TOYOTA">Toyota</option>
+        <option value="VOLKSWAGEN">Volkwaged</option>
+        <option value="VOLVO">Volvo</option>
+    </select>
+    <br><br>
+    <input type="submit">
+    </form>
+</body>
+</html>
