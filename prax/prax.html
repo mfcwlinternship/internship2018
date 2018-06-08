@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add Record Form</title>
+</head>
+<body>
+      <!-- javascript-->
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/Chart.min.js"></script>
+        <script type="text/javascript" src="js/app.js"></script>
+<form method="post" id="result_form">
+    <p>
+            <select size="1" id="Rank" title="" name="Rank">
+                    <option value="">-Select Your Make-</option>
+            <option value="Ashok_Leyland">ASHOK LEYLAND</option>
+            <option value="Aston Martin">ASTON MARTIN</option>
+            <option value="Audi">AUDI</option>
+            <option value="Bentley">BENTLEY</option>
+            <option value="BMW">BMW</option>
+
+            <option value="Bugatti">BUGATTI</option>
+            <option value="Chevrolet">CHEVROLET</option>
+            <option value="Daewoo">DAEWOO</option>
+            <option value="Datsun">DATSUN</option>
+            <option value="Dc">DC</option>
+            
+        </select>
+        <!-- <div class="container">
+                <div class="Ashok_Leyland">
+                    <select class="second-level-select">
+                        <option value="">-Select a Model-</option>
+                        <option value="Stile">Stile</option>
+       
+                    </select>
+                </div>
+                </div>
+        <div class="container">
+                <div class="Bentley">
+                    <select class="second-level-select">
+                        <option value="">-Select a Model-</option>
+                        <option value="Continental GT">Continental GT</option>
+                        <option value="Continental GTC">Continental GTC</option>
+                        <option value="Continental">Continental</option>
+                        <option value="Arnage">Arnage</option>
+                        <option value="Azure">Azure</option>
+                        <option value="Mulsanne">Mulsanne</option>
+                        <option value="Flying Spur">Flying Spur</option>
+                    </select>
+                </div>
+                </div>
+                <div class="container">
+                        <div class="Bugatti">
+                            <select class="second-level-select">
+                                <option value="">-Select a Model-</option>
+                                <option value="Veyron">Veyron</option>
+                      
+                            </select>
+                        </div>
+                        </div> -->
+    </p>
+    <input type="submit" value="Submit" id="result_button">
+    <style type="text/css">
+        #chart-container {
+            width: 1000px;
+            height: auto;
+        }
+        </style>
+    <center><div id="chart-container">
+
+            <canvas id="mycanvas"></canvas>
+            </div></center>
+</form>
+
+
+
+  <script>
+
+
+
+  $("#result_button").click(function(e) {
+    e.preventDefault();
+    $.ajax({
+        type: "POST",
+        url: "http://localhost/prax/insert.php",
+        data: $('#result_form').serialize(),
+       success: function(data) {
+			console.log(data);
+			var date_time = [];
+            var c =  [];
+            
+
+			for(var i in data) {
+				date_time.push(data[i].date_time);
+               c.push(data[i].c);
+                
+			}
+
+			var chartdata = {
+				labels: date_time,
+				datasets : [
+					{
+						label: "Count ", //make this change dynamically 
+						backgroundColor: 'rgba(200, 0, 0, 1)',
+						borderColor: 'rgba(0, 200, 200, 1)',
+						hoverBackgroundColor: 'rgba(200, 200, 200, 1)',
+						hoverBorderColor: 'rgba(200, 200, 0, 0.75)',
+						data: c
+					}
+				]
+			}
+
+			var ctx = $("#mycanvas");
+
+			var barGraph = new Chart(ctx, {
+				type: 'line',
+                data: chartdata,
+               options:{
+				scales: {
+					yAxes: [{
+						scaleLabel: {
+							display: true,
+							labelString: 'Number of Price Checks',
+							fontSize: 20
+						},
+						ticks: {
+							beginAtZero : true
+						}
+					}]
+				}
+			   } 
+			});
+		},
+		error: function(data) {
+			console.log(data);
+		}
+    });
+});
+  </script>
+</body>
+</html>
