@@ -3,7 +3,7 @@ function Zone() {
     $('#zone-select').append("<option>Chargement</option>");
     $.ajax({
        type: "GET",
-       url: "http://localhost/chartjs/data2.php",
+       url: "https://istack.000webhostapp.com/json/t9.json",
        dataType: "json",
        success: function(data) {
           //console.log(data)
