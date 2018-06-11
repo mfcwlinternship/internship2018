@@ -1,37 +1,49 @@
 <?php
-//setting header to json
 header('Content-Type: application/json');
-
 //database
-define('DB_HOST', 'localhost');
+define('DB_HOST', '127.0.0.1');
 define('DB_USERNAME', 'root');
-define('DB_PASSWORD', "");
+define('DB_PASSWORD', '');
 define('DB_NAME', 'automart_demo');
-
 //get connection
 $mysqli = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-
 if(!$mysqli){
 	die("Connection failed: " . $mysqli->error);
 }
 
-//query to get data from the table
-$query = sprintf("SELECT sno, bestprice FROM ibb_comprehensive_tracker ORDER BY sno");
+$dateFrom = $_POST['dateFrom'];
+$date = DateTime::createFromFormat('m/d/Y',$dateFrom);
+$from_date = $date->format("Y-m-d");
 
-//execute query
-$result = $mysqli->query($query);
+$dateTo = $_POST['dateTo'];
+$fate = DateTime::createFromFormat('m/d/Y',$dateTo);
+$to_date = $fate->format("Y-m-d");
 
-//loop through the returned data
-$data = array();
-foreach ($result as $row) {
-	$data[] = $row;
+$car = $_POST['cars'];
+$client = $_POST['clients'];
+
+if($car == 'default' && $client == 'default'){
+    $query = sprintf("SELECT COUNT(cpmodule = '$client') AS frequency, DATE(date_time) as timeline FROM ibb_cardetails_tracker WHERE make = '$car' AND DATE(date_time) BETWEEN '$from_date' AND '$to_date'  GROUP BY DATE(date_time)");
+}
+else{
+
+    $query = sprintf("SELECT COUNT(cpmodule) AS frequency, DATE(date_time) as timeline FROM ibb_cardetails_tracker AND DATE(date_time) BETWEEN '$from_date' AND '$to_date'  GROUP BY DATE(date_time)");
+    
 }
 
-//free memory associated with result
+$result = $mysqli->query($query);
+
+$data = array();
+foreach ($result as $row) {
+   $data[] = $row;
+}
+
+//close connection
 $result->close();
 
 //close connection
 $mysqli->close();
 
-//now print the data
+//Print data
 print json_encode($data);
+?>
