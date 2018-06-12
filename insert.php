@@ -11,13 +11,21 @@ if(!$mysqli){
 	die("Connection failed: " . $mysqli->error);
 }
 // Escape user inputs for security
-$varMake = $_POST['formMake'];
+$varMake = $_POST['country-list'];
+
 
 
  
 // attempt insert query execution
-$query = sprintf("SELECT date_time, count(*) as c FROM ibb_cardetails_tracker WHERE date_time BETWEEN DATE '2017-12-05' AND '2018-03-05' AND make
- = '$varMake' GROUP BY CAST(date_time as DATE)");
+if (isset($_POST['state-list']) && !empty($_POST['state-list'])) {
+    $varModel = $_POST['state-list'];
+    $query = sprintf("SELECT date_time, count(*) as c FROM ibb_cardetails_tracker WHERE date_time BETWEEN DATE '2017-12-05' AND '2018-03-05' AND make
+    = '$varMake' AND model = '$varModel' GROUP BY CAST(date_time as DATE)");  
+}else{  
+    $query = sprintf("SELECT date_time, count(*) as c FROM ibb_cardetails_tracker WHERE date_time BETWEEN DATE '2017-12-05' AND '2018-03-05' AND make
+    = '$varMake' GROUP BY CAST(date_time as DATE)"); 
+}
+
  $result = $mysqli->query($query);
 
  $data = array();
