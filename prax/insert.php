@@ -13,13 +13,22 @@ if(!$mysqli){
 // Escape user inputs for security
 $varMake = $_POST['country-list'];
 
+$dateFrom = $_POST['dateFrom'];
+$date = DateTime::createFromFormat('m/d/Y',$dateFrom);
+
+$from_date = $date->format("Y-m-d");
+
+$dateTo = $_POST['dateTo'];
+$fate = DateTime::createFromFormat('m/d/Y',$dateTo);
+
+$to_date = $fate->format("Y-m-d");
 
 
  
 // attempt insert query execution
 if (isset($_POST['state-list']) && !empty($_POST['state-list'])) {
     $varModel = $_POST['state-list'];
-    $query = sprintf("SELECT date_time, count(*) as c FROM ibb_cardetails_tracker WHERE date_time BETWEEN DATE '2017-12-05' AND '2018-03-05' AND make
+    $query = sprintf("SELECT date_time, count(*) as c FROM ibb_cardetails_tracker WHERE date_time BETWEEN DATE '$from_date' AND '$to_date' AND make
     = '$varMake' AND model = '$varModel' GROUP BY CAST(date_time as DATE)");  
 }else{  
     $query = sprintf("SELECT date_time, count(*) as c FROM ibb_cardetails_tracker WHERE date_time BETWEEN DATE '2017-12-05' AND '2018-03-05' AND make
