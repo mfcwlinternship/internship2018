@@ -9,11 +9,12 @@
       <!-- javascript-->
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/Chart.min.js"></script>
-        <script type="text/javascript" src="js/app.js"></script>
+      <h1> Dashboard </h1>
 
 
 <form method="post" id="result_form">
     <?php include 'index.php';?>
+    
     <input type="submit" value="Submit" id="result_button">
     <style type="text/css">
         #chart-container {
@@ -56,8 +57,8 @@
 				datasets : [
 					{
 						label: "Count ", //make this change dynamically 
-						backgroundColor: 'rgba(200, 0, 0, 1)',
-						borderColor: 'rgba(0, 200, 200, 1)',
+						backgroundColor: 'darkorange',
+						borderColor: 'darkblue',
 						hoverBackgroundColor: 'rgba(200, 200, 200, 1)',
 						hoverBorderColor: 'rgba(200, 200, 0, 0.75)',
 						data: c

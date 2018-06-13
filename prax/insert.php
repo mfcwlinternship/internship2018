@@ -10,29 +10,81 @@ $mysqli = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
 if(!$mysqli){
 	die("Connection failed: " . $mysqli->error);
 }
-// Escape user inputs for security
-$varMake = $_POST['country-list'];
 
-$dateFrom = $_POST['dateFrom'];
-$date = DateTime::createFromFormat('m/d/Y',$dateFrom);
+if (isset($_POST['state-list']) && !empty($_POST['state-list']) && isset($_POST['country-list']) && !empty($_POST['country-list'])   && 
+$_POST['dateTo'] != "" &&  $_POST['dateFrom'] != "") { //date make model
+  
+    $varModel = $_POST['state-list'];
+    $varMake = $_POST['country-list'];
+    $dateFrom = $_POST['dateFrom']; 
+    $date = DateTime::createFromFormat('m/d/Y',$dateFrom);
 
-$from_date = $date->format("Y-m-d");
+$from_date = $date->format("Y-m-d");//start date
 
 $dateTo = $_POST['dateTo'];
 $fate = DateTime::createFromFormat('m/d/Y',$dateTo);
 
-$to_date = $fate->format("Y-m-d");
+$to_date = $fate->format("Y-m-d");//end date
 
-
- 
-// attempt insert query execution
-if (isset($_POST['state-list']) && !empty($_POST['state-list'])) {
-    $varModel = $_POST['state-list'];
     $query = sprintf("SELECT date_time, count(*) as c FROM ibb_cardetails_tracker WHERE date_time BETWEEN DATE '$from_date' AND '$to_date' AND make
     = '$varMake' AND model = '$varModel' GROUP BY CAST(date_time as DATE)");  
-}else{  
-    $query = sprintf("SELECT date_time, count(*) as c FROM ibb_cardetails_tracker WHERE date_time BETWEEN DATE '2017-12-05' AND '2018-03-05' AND make
-    = '$varMake' GROUP BY CAST(date_time as DATE)"); 
+  
+}
+else if(isset($_POST['state-list']) && !empty($_POST['state-list']) && isset($_POST['country-list']) && !empty($_POST['country-list']) &&  
+$_POST['dateTo'] == "" &&  $_POST['dateFrom'] == "") { //make model
+    $varModel = $_POST['state-list'];
+    $varMake = $_POST['country-list'];
+    $query = sprintf("SELECT date_time, count(*) as c FROM ibb_cardetails_tracker WHERE  make
+    = '$varMake' AND model = '$varModel' AND DATE(date_time) >= last_day(now()) + INTERVAL 1 DAY - INTERVAL 3 MONTH GROUP BY CAST(date_time as DATE)"); 
+
+}
+
+
+
+else if(!isset($_POST['state-list']) && empty($_POST['state-list']) && isset($_POST['country-list']) && !empty($_POST['country-list']) && 
+$_POST['dateTo'] != "" &&  $_POST['dateFrom'] != "") { //date make
+    $varMake = $_POST['country-list'];
+    $dateFrom = $_POST['dateFrom']; 
+    $date = DateTime::createFromFormat('m/d/Y',$dateFrom);
+
+$from_date = $date->format("Y-m-d");//start date
+
+$dateTo = $_POST['dateTo'];
+$fate = DateTime::createFromFormat('m/d/Y',$dateTo);
+
+$to_date = $fate->format("Y-m-d");//end date
+$query = sprintf("SELECT date_time, count(*) as c FROM ibb_cardetails_tracker WHERE date_time BETWEEN DATE '$from_date' AND '$to_date' AND make
+= '$varMake' GROUP BY CAST(date_time as DATE)"); 
+
+}
+
+
+else if(!isset($_POST['state-list']) && empty($_POST['state-list']) && isset($_POST['country-list']) && !empty($_POST['country-list']) && 
+$_POST['dateTo'] == "" &&  $_POST['dateFrom'] == "") { //make
+    $varMake = $_POST['country-list'];
+    $query = sprintf("SELECT date_time, count(*) as c FROM ibb_cardetails_tracker WHERE make 
+= '$varMake' AND DATE(date_time) >= last_day(now()) + INTERVAL 1 DAY - INTERVAL 3 MONTH GROUP BY CAST(date_time as DATE)"); 
+}
+
+
+
+else if(!isset($_POST['state-list']) && empty($_POST['state-list']) && !isset($_POST['country-list']) && empty($_POST['country-list']) && 
+$_POST['dateTo'] != "" &&  $_POST['dateFrom'] != "") { //just date
+
+    $dateFrom = $_POST['dateFrom']; 
+    $date = DateTime::createFromFormat('m/d/Y',$dateFrom);
+
+$from_date = $date->format("Y-m-d");//start date
+
+$dateTo = $_POST['dateTo'];
+$fate = DateTime::createFromFormat('m/d/Y',$dateTo);
+
+$to_date = $fate->format("Y-m-d");//end date
+$query = sprintf("SELECT date_time, count(*) as c FROM ibb_cardetails_tracker WHERE date_time BETWEEN DATE '$from_date' AND '$to_date'  GROUP BY CAST(date_time as DATE)"); 
+}
+else{  
+     
+    $query = sprintf("SELECT date_time, count(*) as c FROM ibb_cardetails_tracker WHERE DATE(date_time) >= last_day(now()) + INTERVAL 1 DAY - INTERVAL 3 MONTH GROUP BY CAST(date_time as DATE)"); 
 }
 
  $result = $mysqli->query($query);
